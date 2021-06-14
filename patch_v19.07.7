@@ -1,0 +1,199 @@
+[33mdiff --git a/target/linux/ar71xx/base-files/etc/board.d/01_leds b/target/linux/ar71xx/base-files/etc/board.d/01_leds[m
+[33mindex bd589c1cff..623ac80363 100755[m
+[33m--- a/target/linux/ar71xx/base-files/etc/board.d/01_leds[m
+[33m+++ b/target/linux/ar71xx/base-files/etc/board.d/01_leds[m
+[1;35m@@ -902,6 +902,13 @@[m [mtl-wr741nd)[m
+ 	ucidef_set_led_switch "lan3" "LAN3" "tp-link:green:lan3" "switch0" "0x08"[m
+ 	ucidef_set_led_switch "lan4" "LAN4" "tp-link:green:lan4" "switch0" "0x10"[m
+ 	;;[m
+[1;32m+[m[1;32mtl-wdr5600-v2)[m
+[1;32m+[m	[1;32mucidef_set_led_netdev "wan" "WAN" "tp-link:green:wan" "eth0"[m
+[1;32m+[m	[1;32mucidef_set_led_switch "lan1" "LAN1" "tp-link:green:lan1" "switch0" "0x02"[m
+[1;32m+[m	[1;32mucidef_set_led_switch "lan2" "LAN2" "tp-link:green:lan2" "switch0" "0x04"[m
+[1;32m+[m	[1;32mucidef_set_led_switch "lan3" "LAN3" "tp-link:green:lan3" "switch0" "0x08"[m
+[1;32m+[m	[1;32mucidef_set_led_switch "lan4" "LAN4" "tp-link:green:lan4" "switch0" "0x10"[m
+[1;32m+[m	[1;32m;;[m
+ tl-wpa8630)[m
+ 	ucidef_set_led_netdev "lan" "LAN" "$board:green:lan" "eth0"[m
+ 	ucidef_set_led_netdev "wlan" "WLAN" "$board:green:wlan" "wlan1"[m
+[33mdiff --git a/target/linux/ar71xx/base-files/etc/board.d/02_network b/target/linux/ar71xx/base-files/etc/board.d/02_network[m
+[33mindex 44fce970c0..05979b22e1 100755[m
+[33m--- a/target/linux/ar71xx/base-files/etc/board.d/02_network[m
+[33m+++ b/target/linux/ar71xx/base-files/etc/board.d/02_network[m
+[1;35m@@ -357,6 +357,7 @@[m [mar71xx_setup_interfaces()[m
+ 	r6100|\[m
+ 	smart-300|\[m
+ 	tl-wdr6500-v2|\[m
+[1;32m+[m	[1;32mtl-wdr5600-v2|\[m
+ 	tl-wr940n-v4|\[m
+ 	tl-wr940n-v6|\[m
+ 	tl-wr941nd-v6|\[m
+[33mdiff --git a/target/linux/ar71xx/base-files/etc/diag.sh b/target/linux/ar71xx/base-files/etc/diag.sh[m
+[33mindex 29bf2ada40..f62678b02c 100644[m
+[33m--- a/target/linux/ar71xx/base-files/etc/diag.sh[m
+[33m+++ b/target/linux/ar71xx/base-files/etc/diag.sh[m
+[1;35m@@ -495,6 +495,9 @@[m [mget_status_led() {[m
+ 	tl-wdr6500-v2)[m
+ 		status_led="tp-link:white:system"[m
+ 		;;[m
+[1;32m+[m	[1;32mtl-wdr5600-v2)[m
+[1;32m+[m		[1;32mstatus_led="tp-link:white:system"[m
+[1;32m+[m		[1;32m;;[m
+ 	tube2h)[m
+ 		status_led="alfa:green:signal4"[m
+ 		;;[m
+[33mdiff --git a/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata b/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata[m
+[33mindex b7b7b3a7ba..91620a75a2 100644[m
+[33m--- a/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata[m
+[33m+++ b/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata[m
+[1;35m@@ -65,6 +65,9 @@[m [mcase "$FIRMWARE" in[m
+ 		ath10kcal_extract "art" 20480 2116[m
+ 		ath10kcal_patch_mac $(macaddr_add $(cat /sys/class/net/eth1/address) -2)[m
+ 		;;[m
+[1;32m+[m	[1;32mtl-wdr5600-v2)[m
+[1;32m+[m		[1;32math10kcal_extract "art" 8192 2116[m
+[1;32m+[m		[1;32m;;[m
+ 	archer-c7-v4|\[m
+ 	archer-c7-v5)[m
+ 		ath10kcal_extract "art" 20480 2116[m
+[33mdiff --git a/target/linux/ar71xx/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac b/target/linux/ar71xx/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac[m
+[33mindex d6fac80bc9..4f6a9eb0b0 100644[m
+[33m--- a/target/linux/ar71xx/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac[m
+[33m+++ b/target/linux/ar71xx/base-files/etc/hotplug.d/ieee80211/10_fix_wifi_mac[m
+[1;35m@@ -15,6 +15,7 @@[m [mcase "$board" in[m
+ 	archer-c58-v1|\[m
+ 	archer-c59-v1|\[m
+ 	archer-c59-v2|\[m
+[1;32m+[m	[1;32mtl-wdr5600-v2|\[m
+ 	archer-c60-v1)[m
+ 		echo $(macaddr_add $(mtd_get_mac_binary mac 8)  $(($PHYNBR - 1)) ) > /sys${DEVPATH}/macaddress[m
+ 		;;[m
+[33mdiff --git a/target/linux/ar71xx/base-files/lib/ar71xx.sh b/target/linux/ar71xx/base-files/lib/ar71xx.sh[m
+[33mindex 044ef4eae5..8de36b3aed 100755[m
+[33m--- a/target/linux/ar71xx/base-files/lib/ar71xx.sh[m
+[33m+++ b/target/linux/ar71xx/base-files/lib/ar71xx.sh[m
+[1;35m@@ -345,6 +345,9 @@[m [mtplink_board_detect() {[m
+ 	"65000002")[m
+ 		model="TP-Link TL-WDR6500"[m
+ 		;;[m
+[1;32m+[m	[1;32m"56000002")[m
+[1;32m+[m		[1;32mmodel="TP-Link TL-WDR5600"[m
+[1;32m+[m		[1;32m;;[m
+ 	"721000"*)[m
+ 		model="TP-Link TL-WA7210N"[m
+ 		;;[m
+[1;35m@@ -1319,6 +1322,9 @@[m [mar71xx_board_detect() {[m
+ 	*"TL-WDR6500 v2")[m
+ 		name="tl-wdr6500-v2"[m
+ 		;;[m
+[1;32m+[m	[1;32m*"TL-WDR5600 v2")[m
+[1;32m+[m		[1;32mname="tl-wdr5600-v2"[m
+[1;32m+[m		[1;32m;;[m
+ 	*"TL-WPA8630")[m
+ 		name="tl-wpa8630"[m
+ 		;;[m
+[33mdiff --git a/target/linux/ar71xx/base-files/lib/upgrade/platform.sh b/target/linux/ar71xx/base-files/lib/upgrade/platform.sh[m
+[33mindex f44cdb061f..d4ab1865d2 100755[m
+[33m--- a/target/linux/ar71xx/base-files/lib/upgrade/platform.sh[m
+[33m+++ b/target/linux/ar71xx/base-files/lib/upgrade/platform.sh[m
+[1;35m@@ -463,6 +463,7 @@[m [mplatform_check_image() {[m
+ 	tl-wdr4300|\[m
+ 	tl-wdr4900-v2|\[m
+ 	tl-wdr6500-v2|\[m
+[1;32m+[m	[1;32mtl-wdr5600-v2|\[m
+ 	tl-wpa8630|\[m
+ 	tl-wr1041n-v2|\[m
+ 	tl-wr1043nd|\[m
+[33mdiff --git a/target/linux/ar71xx/config-4.14 b/target/linux/ar71xx/config-4.14[m
+[33mindex 9a524fae43..e5e430427c 100644[m
+[33m--- a/target/linux/ar71xx/config-4.14[m
+[33m+++ b/target/linux/ar71xx/config-4.14[m
+[1;35m@@ -217,6 +217,7 @@[m [mCONFIG_ATH79=y[m
+ # CONFIG_ATH79_MACH_TL_WDR3500 is not set[m
+ # CONFIG_ATH79_MACH_TL_WDR4300 is not set[m
+ # CONFIG_ATH79_MACH_TL_WDR6500_V2 is not set[m
+[1;32m+[m[1;32m# CONFIG_ATH79_MACH_TL_WDR5600_V2 is not set[m
+ # CONFIG_ATH79_MACH_TL_WPA8630 is not set[m
+ # CONFIG_ATH79_MACH_TL_WR1041N_V2 is not set[m
+ # CONFIG_ATH79_MACH_TL_WR1043ND is not set[m
+[33mdiff --git a/target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt b/target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt[m
+[33mindex 6fd78c46a0..4ec1d75bfb 100644[m
+[33m--- a/target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt[m
+[33m+++ b/target/linux/ar71xx/files/arch/mips/ath79/Kconfig.openwrt[m
+[1;35m@@ -1855,6 +1855,16 @@[m [mconfig ATH79_MACH_TL_WDR6500_V2[m
+ 	select ATH79_DEV_USB[m
+ 	select ATH79_DEV_WMAC[m
+ [m
+[1;32m+[m[1;32mconfig ATH79_MACH_TL_WDR5600_V2[m
+[1;32m+[m	[1;32mbool "TP-LINK TL-WDR5600 v2 board support"[m
+[1;32m+[m	[1;32mselect SOC_QCA956X[m
+[1;32m+[m	[1;32mselect ATH79_DEV_AP9X_PCI if PCI[m
+[1;32m+[m	[1;32mselect ATH79_DEV_ETH[m
+[1;32m+[m	[1;32mselect ATH79_DEV_GPIO_BUTTONS[m
+[1;32m+[m	[1;32mselect ATH79_DEV_LEDS_GPIO[m
+[1;32m+[m	[1;32mselect ATH79_DEV_M25P80[m
+[1;32m+[m	[1;32mselect ATH79_DEV_WMAC[m
+[1;32m+[m
+ config ATH79_MACH_TL_WR703N[m
+ 	bool "TP-LINK TL-WR703N/TL-WR710N/TL-MR10U support"[m
+ 	select SOC_AR933X[m
+[33mdiff --git a/target/linux/ar71xx/files/arch/mips/ath79/Makefile b/target/linux/ar71xx/files/arch/mips/ath79/Makefile[m
+[33mindex 0265b3d818..48ca6d61ab 100644[m
+[33m--- a/target/linux/ar71xx/files/arch/mips/ath79/Makefile[m
+[33m+++ b/target/linux/ar71xx/files/arch/mips/ath79/Makefile[m
+[1;35m@@ -228,6 +228,7 @@[m [mobj-$(CONFIG_ATH79_MACH_TL_WDR3320_V2)		+= mach-tl-wdr3320-v2.o[m
+ obj-$(CONFIG_ATH79_MACH_TL_WDR3500)		+= mach-tl-wdr3500.o[m
+ obj-$(CONFIG_ATH79_MACH_TL_WDR4300)		+= mach-tl-wdr4300.o[m
+ obj-$(CONFIG_ATH79_MACH_TL_WDR6500_V2)		+= mach-tl-wdr6500-v2.o[m
+[1;32m+[m[1;32mobj-$(CONFIG_ATH79_MACH_TL_WDR5600_V2)		+= mach-tl-wdr5600-v2.o[m
+ obj-$(CONFIG_ATH79_MACH_TL_WPA8630)		+= mach-tl-wpa8630.o[m
+ obj-$(CONFIG_ATH79_MACH_TL_WR1041N_V2)		+= mach-tl-wr1041n-v2.o[m
+ obj-$(CONFIG_ATH79_MACH_TL_WR1043ND)		+= mach-tl-wr1043nd.o[m
+[33mdiff --git a/target/linux/ar71xx/files/arch/mips/ath79/machtypes.h b/target/linux/ar71xx/files/arch/mips/ath79/machtypes.h[m
+[33mindex 900b4ec87b..3b581c1399 100644[m
+[33m--- a/target/linux/ar71xx/files/arch/mips/ath79/machtypes.h[m
+[33m+++ b/target/linux/ar71xx/files/arch/mips/ath79/machtypes.h[m
+[1;35m@@ -283,6 +283,7 @@[m [menum ath79_mach_type {[m
+ 	ATH79_MACH_TL_WDR4300,			/* TP-LINK TL-WDR4300 */[m
+ 	ATH79_MACH_TL_WDR4900_V2,		/* TP-LINK TL-WDR4900 v2 */[m
+ 	ATH79_MACH_TL_WDR6500_V2,		/* TP-LINK TL-WDR6500 v2 */[m
+[1;32m+[m	[1;32mATH79_MACH_TL_WDR5600_V2,		/* TP-LINK TL-WDR5600 v2 */[m
+ 	ATH79_MACH_TL_WPA8630,			/* TP-Link TL-WPA8630 */[m
+ 	ATH79_MACH_TL_WR1041N_V2,		/* TP-LINK TL-WR1041N v2 */[m
+ 	ATH79_MACH_TL_WR1043N_V5,		/* TP-LINK TL-WR1043N v5 */[m
+[33mdiff --git a/target/linux/ar71xx/generic/config-default b/target/linux/ar71xx/generic/config-default[m
+[33mindex 25b58ae91e..6abd4ae203 100644[m
+[33m--- a/target/linux/ar71xx/generic/config-default[m
+[33m+++ b/target/linux/ar71xx/generic/config-default[m
+[1;35m@@ -157,6 +157,7 @@[m [mCONFIG_ATH79_MACH_TL_MR6400=y[m
+ CONFIG_ATH79_MACH_TL_WDR3500=y[m
+ CONFIG_ATH79_MACH_TL_WDR4300=y[m
+ CONFIG_ATH79_MACH_TL_WDR6500_V2=y[m
+[1;32m+[m[1;32mCONFIG_ATH79_MACH_TL_WDR5600_V2=y[m
+ CONFIG_ATH79_MACH_TL_WPA8630=y[m
+ CONFIG_ATH79_MACH_TL_WR1043ND=y[m
+ CONFIG_ATH79_MACH_TL_WR1043ND_V2=y[m
+[33mdiff --git a/target/linux/ar71xx/image/generic-tp-link.mk b/target/linux/ar71xx/image/generic-tp-link.mk[m
+[33mindex 0f3f731d17..bb42bb4210 100644[m
+[33m--- a/target/linux/ar71xx/image/generic-tp-link.mk[m
+[33m+++ b/target/linux/ar71xx/image/generic-tp-link.mk[m
+[1;35m@@ -360,6 +360,19 @@[m [mdefine Device/tl-wdr6500-v2[m
+ endef[m
+ TARGET_DEVICES += tl-wdr6500-v2[m
+ [m
+[1;32m+[m[1;32mdefine Device/tl-wdr5600-v2[m
+[1;32m+[m[1;32m  $(Device/tplink-8mlzma)[m
+[1;32m+[m[1;32m  DEVICE_TITLE := TP-LINK TL-WDR5600 v2[m
+[1;32m+[m[1;32m  DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport kmod-ath10k ath10k-firmware-qca9887[m
+[1;32m+[m[1;32m  KERNEL := kernel-bin | patch-cmdline | lzma | uImage lzma[m
+[1;32m+[m[1;32m  KERNEL_INITRAMFS := kernel-bin | patch-cmdline | lzma | uImage lzma | tplink-v1-header[m
+[1;32m+[m[1;32m  BOARDNAME := TL-WDR5600-v2[m
+[1;32m+[m[1;32m  DEVICE_PROFILE := TLWDR5600V2[m
+[1;32m+[m[1;32m  TPLINK_HWID := 0x56000002[m
+[1;32m+[m[1;32m  TPLINK_HEADER_VERSION := 2[m
+[1;32m+[m[1;32mendef[m
+[1;32m+[m[1;32mTARGET_DEVICES += tl-wdr5600-v2[m
+[1;32m+[m
+ define Device/mw4530r-v1[m
+   $(Device/tl-wdr4300-v1)[m
+   DEVICE_TITLE := Mercury MW4530R v1[m
