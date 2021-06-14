@@ -81,7 +81,8 @@ jobs:
 
     - name: apply patch
       run: |
-        cd openwrt && git apply $PATCH_NAME
+        [ -e $PATCH_NAME ] && mv $PATCH_NAME openwrt/patch_me
+        cd openwrt && git apply patch_me
 
     - name: Load custom configuration
       run: |
