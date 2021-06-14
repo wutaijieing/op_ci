@@ -81,8 +81,8 @@ jobs:
 
     - name: apply patch
       run: |
-        [ -e $PATCH_NAME ] && mv $PATCH_NAME openwrt/patch_me
-        cd openwrt && git apply patch_me
+        cd openwrt
+        git apply $GITHUB_WORKSPACE/$PATCH_NAME
 
     - name: Load custom configuration
       run: |
