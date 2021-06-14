@@ -11,6 +11,9 @@
 name: Build OpenWrt
 
 on:
+  push:
+    branches:
+      - master
   repository_dispatch:
   workflow_dispatch:
     inputs:
@@ -80,9 +83,7 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: apply patch
-      run: |
-        cd openwrt
-        git apply $GITHUB_WORKSPACE/$PATCH_NAME
+      run: cd openwrt && git apply $GITHUB_WORKSPACE/$PATCH_NAME
 
     - name: Load custom configuration
       run: |
