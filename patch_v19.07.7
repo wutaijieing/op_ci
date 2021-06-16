@@ -343,3 +343,25 @@ index 0000000000..99d81c1e18
 +
 +MIPS_MACHINE(ATH79_MACH_TL_WDR5600_V2, "TL-WDR5600-v2", "TP-LINK TL-WDR5600 v2",
 +	     tl_wdr5600_v2_setup);
+diff --git a/target/linux/ar71xx/files/drivers/mtd/tplinkpart.c b/target/linux/ar71xx/files/drivers/mtd/tplinkpart.c
+index 1b94163b83..236c05016d 100644
+--- a/target/linux/ar71xx/files/drivers/mtd/tplinkpart.c
++++ b/target/linux/ar71xx/files/drivers/mtd/tplinkpart.c
+@@ -154,7 +154,7 @@ static int tplink_parse_partitions_offset(struct mtd_info *master,
+ 	parts[0].name = "u-boot";
+ 	parts[0].offset = 0;
+ 	parts[0].size = offset;
+-	parts[0].mask_flags = MTD_WRITEABLE;
++	// parts[0].mask_flags = MTD_WRITEABLE;
+ 
+ 	parts[1].name = "kernel";
+ 	parts[1].offset = offset;
+@@ -167,7 +167,7 @@ static int tplink_parse_partitions_offset(struct mtd_info *master,
+ 	parts[3].name = "art";
+ 	parts[3].offset = art_offset;
+ 	parts[3].size = TPLINK_ART_LEN;
+-	parts[3].mask_flags = MTD_WRITEABLE;
++	// parts[3].mask_flags = MTD_WRITEABLE;
+ 
+ 	parts[4].name = "firmware";
+ 	parts[4].offset = offset;
